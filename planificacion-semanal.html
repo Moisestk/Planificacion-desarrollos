@@ -259,7 +259,7 @@
       padding: 14px 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
     }
 
     /* actividades list */
@@ -298,14 +298,129 @@
     }
     .btn-del-act:hover { color: var(--red); }
 
-    .btn-add-act {
-      padding: 6px; width: 100%;
-      border: 1px dashed var(--border); border-radius: 6px;
+    /* ── Secciones de actividades ── */
+    .act-section {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .act-section-label {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 1.1px; text-transform: uppercase;
+      display: flex; align-items: center; gap: 5px;
+      padding: 0 2px; margin-bottom: 1px;
+    }
+    .act-section--done    .act-section-label { color: var(--green); }
+    .act-section--pending .act-section-label { color: var(--amber); }
+
+    .act-section--done    .act-bullet { background: var(--green); }
+    .act-section--pending .act-bullet { background: var(--amber); }
+
+    .act-section--done    .act-quick-add:focus-within { border-color: var(--green); background: rgba(16,185,129,.06); box-shadow: 0 0 0 3px rgba(16,185,129,.08); }
+    .act-section--pending .act-quick-add:focus-within { border-color: var(--amber); background: rgba(245,158,11,.06); box-shadow: 0 0 0 3px rgba(245,158,11,.08); }
+
+    .act-section--done    .act-quick-add:focus-within .act-quick-kbd { color: var(--green); border-color: rgba(16,185,129,.4); }
+    .act-section--pending .act-quick-add:focus-within .act-quick-kbd { color: var(--amber); border-color: rgba(245,158,11,.4); }
+
+    .act-section--done    .act-paste-btn:hover { color: var(--green); }
+    .act-section--pending .act-paste-btn:hover { color: var(--amber); }
+
+    .act-section--done    .act-paste-textarea { border-color: rgba(16,185,129,.35); box-shadow: 0 0 0 3px rgba(16,185,129,.05); }
+    .act-section--pending .act-paste-textarea { border-color: rgba(245,158,11,.35);  box-shadow: 0 0 0 3px rgba(245,158,11,.05); }
+
+    .act-section--done    .act-paste-confirm { background: var(--green); }
+    .act-section--done    .act-paste-confirm:hover { background: #0ea874; }
+    .act-section--pending .act-paste-confirm { background: var(--amber); color: #000; }
+    .act-section--pending .act-paste-confirm:hover { background: #d97706; }
+
+    .act-sections-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 6px 0 4px;
+    }
+
+    /* quick-add row — barra inferior de actividades */
+    .act-quick-add {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      padding: 7px 10px;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      cursor: text;
+    }
+    .act-quick-add:focus-within {
+      border-color: var(--accent);
+      border-style: solid;
+      background: var(--accent-glow);
+      box-shadow: 0 0 0 3px rgba(0,178,204,.08);
+    }
+    .act-quick-input {
+      border: none; background: transparent;
+      font-family: var(--font); font-size: 12px;
+      color: var(--text); outline: none; flex: 1;
+    }
+    .act-quick-input::placeholder { color: var(--muted); font-style: italic; }
+    .act-quick-kbd {
+      font-size: 9px; color: rgba(255,255,255,.18);
+      letter-spacing: .3px; white-space: nowrap; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 4px; padding: 1px 5px;
+      transition: color .2s;
+    }
+    .act-quick-add:focus-within .act-quick-kbd { color: var(--accent-dim); border-color: var(--accent-line); }
+
+    /* botón "Pegar lista" y panel expandible */
+    .act-paste-btn {
+      width: 100%; margin-top: 4px;
+      padding: 5px; border: none;
+      background: transparent;
+      color: var(--muted); font-family: var(--font);
+      font-size: 10px; letter-spacing: .3px;
+      cursor: pointer; transition: color .2s;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .act-paste-btn:hover { color: var(--accent); }
+    .act-paste-btn svg { flex-shrink: 0; }
+
+    .act-paste-panel {
+      display: none; margin-top: 4px;
+    }
+    .act-paste-panel.open { display: block; }
+    .act-paste-textarea {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--accent-line);
+      border-radius: 6px; padding: 9px 11px;
+      font-family: var(--font); font-size: 12px;
+      color: var(--text); outline: none;
+      resize: none; height: 90px; line-height: 1.7;
+      box-shadow: 0 0 0 3px rgba(0,178,204,.06);
+    }
+    .act-paste-textarea:focus { border-color: var(--accent); }
+    .act-paste-textarea::placeholder { color: var(--muted); }
+    .act-paste-actions {
+      display: flex; gap: 6px; margin-top: 5px;
+    }
+    .act-paste-confirm {
+      flex: 1; padding: 6px 0; border-radius: 6px;
+      background: var(--accent); color: #000;
+      font-family: var(--font); font-size: 11px; font-weight: 700;
+      border: none; cursor: pointer; letter-spacing: .3px;
+      transition: background .2s;
+    }
+    .act-paste-confirm:hover { background: #00cceb; }
+    .act-paste-cancel {
+      padding: 6px 14px; border-radius: 6px;
       background: transparent; color: var(--muted);
       font-family: var(--font); font-size: 11px;
-      cursor: pointer; transition: all .2s;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: all .2s;
     }
-    .btn-add-act:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .act-paste-cancel:hover { border-color: var(--red); color: var(--red); }
 
     .field-label {
       font-size: 9px; font-weight: 700;
@@ -751,7 +866,7 @@ function getWeekLabel() {
 }
 
 /* ── Desarrollos ── */
-function addDev(name='', pct=0, status='En progreso', plan='', actividades=[]) {
+function addDev(name='', pct=0, status='En progreso', plan='', actividades=[], pendientes=[]) {
   const item = document.createElement('div');
   item.className = 'dev-item';
   item.innerHTML = `
@@ -772,41 +887,179 @@ function addDev(name='', pct=0, status='En progreso', plan='', actividades=[]) {
       <button class="btn-del" onclick="this.closest('.dev-item').remove();updateDevCount();save()">✕</button>
     </div>
     <div class="dev-detail" style="display:none">
-      <div>
-        <div class="field-label">Plan de la semana — ¿Qué se desarrollará?</div>
-        <textarea class="field-input dev-plan" placeholder="Describe el enfoque general de este desarrollo para la semana..." oninput="save()">${plan}</textarea>
+
+      <!-- ── Sección 1: Actividades realizadas ── -->
+      <div class="act-section act-section--done">
+        <div class="act-section-label">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Actividades realizadas
+        </div>
+        <div class="act-list act-list-done"></div>
+        <div class="act-quick-add">
+          <span class="act-bullet"></span>
+          <input type="text" class="act-quick-input" placeholder="Actividad realizada… pulsa ↵ para agregar">
+          <span class="act-quick-kbd">↵</span>
+        </div>
+        <button class="act-paste-btn" type="button">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/></svg>
+          Pegar lista
+        </button>
+        <div class="act-paste-panel">
+          <textarea class="act-paste-textarea" placeholder="Pega tu lista de actividades completadas:&#10;- Corrección del bug de registro&#10;- Implementación del módulo X&#10;- Revisión de diseños con el equipo"></textarea>
+          <div class="act-paste-actions">
+            <button class="act-paste-confirm" type="button">✓ Agregar todas</button>
+            <button class="act-paste-cancel" type="button">Cancelar</button>
+          </div>
+        </div>
       </div>
-      <div>
-        <div class="field-label">Actividades de la semana</div>
-        <div class="act-list"></div>
-        <button class="btn-add-act" onclick="addActItem(this.previousElementSibling)">+ Agregar actividad</button>
+
+      <div class="act-sections-divider"></div>
+
+      <!-- ── Sección 2: Implementaciones / mejoras restantes ── -->
+      <div class="act-section act-section--pending">
+        <div class="act-section-label">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Implementaciones / mejoras restantes
+        </div>
+        <div class="act-list act-list-pending"></div>
+        <div class="act-quick-add">
+          <span class="act-bullet"></span>
+          <input type="text" class="act-quick-input" placeholder="Mejora o implementación pendiente… pulsa ↵">
+          <span class="act-quick-kbd">↵</span>
+        </div>
+        <button class="act-paste-btn" type="button">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/></svg>
+          Pegar lista
+        </button>
+        <div class="act-paste-panel">
+          <textarea class="act-paste-textarea" placeholder="Pega tu lista de mejoras pendientes:&#10;- Migrar a nueva versión del framework&#10;- Implementar notificaciones push&#10;- Optimizar queries de la base de datos"></textarea>
+          <div class="act-paste-actions">
+            <button class="act-paste-confirm" type="button">✓ Agregar todas</button>
+            <button class="act-paste-cancel" type="button">Cancelar</button>
+          </div>
+        </div>
       </div>
+
     </div>
   `;
   $('devList').appendChild(item);
-  const actList = item.querySelector('.act-list');
-  actividades.forEach(t => addActItem(actList, t));
+
+  const secDone    = item.querySelector('.act-section--done');
+  const secPending = item.querySelector('.act-section--pending');
+  wireActSection(secDone);
+  wireActSection(secPending);
+
+  actividades.forEach(t => addActItem(secDone.querySelector('.act-list'),    t, true));
+  pendientes.forEach( t => addActItem(secPending.querySelector('.act-list'), t, true));
   updateDevCount();
 }
 
-function addActItem(listEl, text='') {
+/* Conecta todos los eventos de una sección de actividades */
+function wireActSection(sectionEl) {
+  const actList    = sectionEl.querySelector('.act-list');
+  const quickInput = sectionEl.querySelector('.act-quick-input');
+  const pasteBtn   = sectionEl.querySelector('.act-paste-btn');
+  const pastePanel = sectionEl.querySelector('.act-paste-panel');
+  const pasteTa    = sectionEl.querySelector('.act-paste-textarea');
+  const pasteOk    = sectionEl.querySelector('.act-paste-confirm');
+  const pasteCancel= sectionEl.querySelector('.act-paste-cancel');
+
+  quickInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const val = quickInput.value.trim();
+      if (val) { addActItem(actList, val, true); quickInput.value = ''; quickInput.focus(); }
+    }
+  });
+
+  quickInput.addEventListener('paste', e => {
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    if (text.includes('\n')) {
+      e.preventDefault();
+      parseAndAddLines(text, actList);
+      quickInput.value = '';
+      quickInput.focus();
+    }
+  });
+
+  pasteBtn.addEventListener('click', () => {
+    const open = pastePanel.classList.toggle('open');
+    if (open) { pasteTa.focus(); pasteBtn.style.display = 'none'; }
+  });
+
+  pasteCancel.addEventListener('click', () => {
+    pastePanel.classList.remove('open');
+    pasteTa.value = '';
+    pasteBtn.style.display = '';
+  });
+
+  pasteOk.addEventListener('click', () => {
+    parseAndAddLines(pasteTa.value, actList);
+    pastePanel.classList.remove('open');
+    pasteTa.value = '';
+    pasteBtn.style.display = '';
+    quickInput.focus();
+  });
+
+  pasteTa.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); pasteOk.click(); }
+    if (e.key === 'Escape') pasteCancel.click();
+  });
+}
+
+function parseAndAddLines(text, actList) {
+  const lines = text.split('\n')
+    .map(l => l.replace(/^[\s\t]*[-*•·]\s*/, '').trim())
+    .filter(l => l.length > 0);
+  lines.forEach((line, i) => addActItem(actList, line, i < lines.length - 1));
+}
+
+function addActItem(listEl, text='', skipFocus=false) {
   const row = document.createElement('div');
   row.className = 'act-item';
   row.innerHTML = `
     <span class="act-bullet"></span>
-    <input type="text" class="act-input" placeholder="Describir actividad..." value="${text}" oninput="save()">
+    <input type="text" class="act-input" placeholder="Editar actividad…" value="${text.replace(/"/g,'&quot;')}" oninput="save()">
     <button class="btn-del-act" onclick="this.closest('.act-item').remove();save()">✕</button>
   `;
   listEl.appendChild(row);
-  row.querySelector('.act-input').focus();
+  const inp = row.querySelector('.act-input');
+
+  /* Enter → foco al quick-input de la misma sección */
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const qi = listEl.closest('.act-section')?.querySelector('.act-quick-input');
+      if (qi) qi.focus();
+    }
+    /* Backspace en input vacío → eliminar item y subir foco */
+    if (e.key === 'Backspace' && inp.value === '') {
+      e.preventDefault();
+      const prev = row.previousElementSibling;
+      row.remove();
+      save();
+      if (prev) prev.querySelector('.act-input')?.focus();
+      else listEl.closest('.act-section')?.querySelector('.act-quick-input')?.focus();
+    }
+  });
+
+  if (!skipFocus) inp.focus();
   save();
 }
+
 
 function toggleDev(btn) {
   const detail = btn.closest('.dev-item').querySelector('.dev-detail');
   const open = detail.style.display !== 'none';
-  detail.style.display = open ? 'none' : 'grid';
+  detail.style.display = open ? 'none' : 'flex';
   btn.classList.toggle('open', !open);
+  if (!open) {
+    /* al abrir, enfocar el quick-input de la primera sección si está vacía */
+    const firstSection = detail.querySelector('.act-section--done');
+    if (firstSection && !firstSection.querySelector('.act-list').children.length) {
+      firstSection.querySelector('.act-quick-input').focus();
+    }
+  }
 }
 
 function updatePct(range) {
@@ -857,8 +1110,9 @@ function collectData() {
     name:        i.querySelector('.dev-name').value,
     pct:         i.querySelector('.slider').value,
     status:      i.querySelector('.sel').value,
-    plan:        i.querySelector('.dev-plan')?.value || '',
-    actividades: [...i.querySelectorAll('.act-input')].map(a => a.value),
+    plan:        '',
+    actividades: [...i.querySelectorAll('.act-list-done    .act-input')].map(a => a.value).filter(v => v),
+    pendientes:  [...i.querySelectorAll('.act-list-pending .act-input')].map(a => a.value).filter(v => v),
   }));
 
   const pendings = [...$('pendingList').children].map(i => ({
@@ -900,7 +1154,7 @@ function loadData() {
   if (d.dateStart || d.dateEnd) updateWeekBanner();
 
   (d.devs || []).forEach(x =>
-    addDev(x.name, x.pct, x.status, x.plan||'', x.actividades||[])
+    addDev(x.name, x.pct, x.status, x.plan||'', x.actividades||[], x.pendientes||[])
   );
   (d.pendings || []).forEach(x => addPending(x.text, x.prio));
   return true;
@@ -922,35 +1176,29 @@ function pdfSection(title, body) {
 }
 
 function pdfDevBlock(d) {
-  const clr = {Completado:'#10B981',Bloqueado:'#EF4444',Pausado:'#F59E0B','En progreso':'#00B2CC'}[d.status]||'#00B2CC';
-  const acts = (d.actividades||[]).filter(a => a && a.trim());
-  const hasPlan = d.plan && d.plan.trim();
+  const clr      = {Completado:'#10B981',Bloqueado:'#EF4444',Pausado:'#F59E0B','En progreso':'#00B2CC'}[d.status]||'#00B2CC';
+  const acts     = (d.actividades||[]).filter(a => a && a.trim());
+  const pends    = (d.pendientes ||[]).filter(a => a && a.trim());
+  const hasItems = acts.length || pends.length;
 
-  let inner = `
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:${hasPlan||acts.length?'10':'0'}px;flex-wrap:wrap;">
+  const listHtml = (items, color, label) => items.length ? `
+    <div style="margin-top:9px;">
+      <div style="font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+                  color:${color};margin-bottom:5px;">${label}</div>
+      ${items.map(a => `<div style="display:flex;gap:8px;align-items:flex-start;padding:2px 0;">
+        <span style="color:${color};font-size:15px;line-height:1;flex-shrink:0;margin-top:-2px;">·</span>
+        <span style="font-size:12px;color:#334155;line-height:1.6;">${esc(a)}</span>
+      </div>`).join('')}
+    </div>` : '';
+
+  const inner = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:${hasItems?'6':'0'}px;flex-wrap:wrap;">
       <span style="font-weight:700;font-size:13px;color:#0f172a;">${esc(d.name)}</span>
       <span style="font-size:10px;font-weight:600;color:${clr};background:${clr}22;
                    padding:2px 9px;border-radius:20px;">${esc(d.status)}</span>
-    </div>`;
-
-  if (hasPlan) {
-    inner += `<div style="margin-bottom:${acts.length?'10':'0'}px;">
-      <div style="font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
-                  color:#94a3b8;margin-bottom:5px;">Plan de la semana</div>
-      <p style="font-size:12px;color:#334155;line-height:1.7;margin:0;">${esc(d.plan)}</p>
-    </div>`;
-  }
-
-  if (acts.length) {
-    inner += `<div>
-      <div style="font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
-                  color:#94a3b8;margin-bottom:6px;">Actividades</div>
-      ${acts.map(a=>`<div style="display:flex;gap:8px;align-items:flex-start;padding:3px 0;">
-        <span style="color:#00B2CC;font-size:15px;line-height:1;flex-shrink:0;margin-top:-2px;">·</span>
-        <span style="font-size:12px;color:#334155;line-height:1.6;">${esc(a)}</span>
-      </div>`).join('')}
-    </div>`;
-  }
+    </div>
+    ${listHtml(acts,  '#10B981', '✓ Actividades realizadas')}
+    ${listHtml(pends, '#F59E0B', '◉ Implementaciones / mejoras restantes')}`;
 
   return `<div style="margin-bottom:12px;padding:13px 15px;background:#f8fafc;
                       border-left:3px solid ${clr};border-radius:5px;">${inner}</div>`;
