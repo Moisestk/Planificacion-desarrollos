@@ -203,7 +203,7 @@
       border: none; background: transparent;
       font-family: var(--font); font-size: 13px;
       font-weight: 600; color: var(--white);
-      outline: none; width: 100%;
+      outline: none; width: 100%; min-width: 0;
     }
     .dev-name::placeholder { color: var(--muted); font-weight: 400; }
 
@@ -286,7 +286,7 @@
     .act-input {
       border: none; background: transparent;
       font-family: var(--font); font-size: 12px;
-      color: var(--text); outline: none; flex: 1;
+      color: var(--text); outline: none; flex: 1; min-width: 0;
     }
     .act-input::placeholder { color: var(--muted); }
 
@@ -361,7 +361,7 @@
     .act-quick-input {
       border: none; background: transparent;
       font-family: var(--font); font-size: 12px;
-      color: var(--text); outline: none; flex: 1;
+      color: var(--text); outline: none; flex: 1; min-width: 0;
     }
     .act-quick-input::placeholder { color: var(--muted); font-style: italic; }
     .act-quick-kbd {
@@ -664,15 +664,192 @@
       header { position: static; }
       .btn, .btn-add, .btn-del { display: none; }
     }
-    @media (max-width: 760px) {
-      .grid-top, .grid-bottom { grid-template-columns: 1fr; }
-      .week-days-strip { grid-template-columns: repeat(3,1fr) !important; }
-      header { padding: 0 16px; }
-      main { padding: 16px 12px 48px; }
+
+    /* ── 900px: tablet landscape ── */
+    @media (max-width: 900px) {
+      .grid-top { grid-template-columns: 1fr; }
     }
+
+    /* ── 760px: tablet portrait ── */
+    @media (max-width: 760px) {
+      body { overflow-x: hidden; }
+
+      /* Grids */
+      .grid-top, .grid-bottom { grid-template-columns: 1fr; }
+      .week-days-strip { grid-template-columns: repeat(3, 1fr) !important; }
+
+      /* ── Header: apilado en 2 filas ── */
+      header {
+        height: auto;
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0;
+      }
+      .logo-wrap { height: 28px; flex-shrink: 0; }
+      .header-center {
+        flex: 1; text-align: left;
+        padding: 0 12px;
+      }
+      .header-center h1 { font-size: 13px; }
+      .header-center p   { font-size: 10px; margin-top: 1px; }
+
+      /* Acciones debajo, ancho completo */
+      .header-actions {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding-top: 10px;
+        margin-top: 10px;
+        border-top: 1px solid var(--border);
+      }
+      .week-dates { flex: 1; min-width: 0; }
+
+      /* ── Main ── */
+      main { padding: 14px 12px 80px; }
+
+      /* ── Dev summary: 2 filas ──
+         Fila 1: [toggle][nombre][estado][✕]
+         Fila 2: [%][slider full-width]
+      ── */
+      .dev-summary {
+        grid-template-columns: 28px 1fr auto auto;
+        padding: 10px 12px;
+        row-gap: 10px;
+      }
+      /* prog-wrap: sólo muestra el % en col 1 fila 2 */
+      .dev-summary .prog-wrap {
+        grid-row: 2;
+        grid-column: 1 / 2;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        min-width: 28px;
+      }
+      .dev-summary .prog-bar { display: none; }
+      .dev-summary .prog-pct {
+        font-size: 9px; width: auto;
+        text-align: center; line-height: 1.2;
+      }
+      /* Slider: fila 2, ocupa cols 2-4 */
+      .dev-summary .slider {
+        grid-row: 2;
+        grid-column: 2 / -1;
+        width: 100%;
+        margin: 0;
+        height: 6px;
+      }
+
+      /* Tap targets mínimos 44px */
+      .dev-toggle,
+      .btn-del {
+        min-width: 36px; min-height: 36px;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .btn-del-act {
+        min-width: 32px; min-height: 32px;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+
+      /* Áreas de texto y quick-add más altas */
+      .act-quick-add  { padding: 10px 11px; }
+      .act-item       { padding: 9px 10px; }
+      .act-paste-btn  { padding: 10px 8px; }
+      .btn-add        { padding: 12px 8px; }
+
+      /* Semana banner */
+      .week-banner-head { flex-wrap: wrap; gap: 4px; }
+
+      /* Week summary textarea */
+      .editable-area { min-height: 110px; }
+    }
+
+    /* ── 480px: móvil estándar ── */
     @media (max-width: 480px) {
-      .week-days-strip { grid-template-columns: repeat(2,1fr) !important; }
-      .header-actions { gap: 6px; }
+      /* Header más compacto */
+      header { padding: 8px 12px; }
+      .logo-wrap { height: 24px; }
+      .header-center h1 { font-size: 12px; }
+      .header-center p  { display: none; }
+
+      /* Acciones: dates en fila propia, botones 50/50 */
+      .header-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .week-dates {
+        grid-column: 1 / -1;
+        justify-content: space-between;
+      }
+      .week-dates-label { display: none; }
+      input[type="date"].date-inp { width: auto; flex: 1; }
+      .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 7px 8px;
+        font-size: 11px;
+      }
+
+      /* Semana strip */
+      .week-days-strip { grid-template-columns: repeat(2, 1fr) !important; }
+
+      /* Main */
+      main { padding: 10px 10px 80px; }
+
+      /* Cards */
+      .card-body   { padding: 12px 12px; }
+      .card-header { padding: 10px 12px; }
+      .card-title  { font-size: 10px; letter-spacing: .6px; }
+
+      /* Dev items */
+      .dev-summary { padding: 9px 10px; row-gap: 8px; }
+      .dev-name    { font-size: 12px; }
+      select.sel   { font-size: 10px; padding: 3px 5px; max-width: 88px; }
+
+      /* Dev detail */
+      .dev-detail { padding: 12px 10px; gap: 6px; }
+
+      /* Sección label más corta */
+      .act-section-label { font-size: 8px; letter-spacing: .7px; }
+
+      /* Pendientes */
+      .pending-item {
+        grid-template-columns: 7px 1fr auto auto;
+        gap: 8px; padding: 9px 10px;
+      }
+      select.prio-sel { font-size: 9px; padding: 2px 4px; }
+
+      /* Week banner: días más compactos */
+      .wday-cell  { padding: 10px 6px; }
+      .wday-date  { font-size: 16px; }
+      .wday-name  { font-size: 9px; }
+      .wday-month { font-size: 9px; }
+
+      /* Prevent iOS auto-zoom (font-size < 16px triggers zoom on focus) */
+      input[type="text"],
+      input[type="date"],
+      textarea,
+      select { font-size: 16px !important; }
+
+      /* Override individual font-sizes que lucen demasiado grandes */
+      .act-quick-input,
+      .act-input,
+      .pending-input { font-size: 14px !important; }
+
+      .dev-name { font-size: 14px !important; }
+    }
+
+    /* ── 360px: móvil pequeño ── */
+    @media (max-width: 360px) {
+      header { padding: 8px 10px; }
+      main   { padding: 8px 8px 80px; }
+      .card-body   { padding: 10px; }
+      .card-header { padding: 9px 10px; }
+      .dev-summary { padding: 8px; }
+      select.sel { max-width: 76px; font-size: 9px; }
+      .week-days-strip { grid-template-columns: repeat(2, 1fr) !important; }
     }
   </style>
 </head>
